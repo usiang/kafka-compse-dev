@@ -1,0 +1,40 @@
+version: '3'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+
+services:
+
+  # https://hub.docker.com/_/zookeeper
+  zookeeper:
+    image: zookeeper
+    restart: always
+    # ports:
+    #   - 2181:2181
+    networks:
+      - frontend
+
+  kafka:
+    build:
+        context: ./kafka
+        args:
+          - ZOOKEEPER_HOME=zookeeper
+    environment:
+      - ZOOKEEPER_HOME=zookeeper
+    depends_on:
+      - zookeeper
+    networks:
+      - frontend
+
+  kafka-manager:
+    image: kafkamanager/kafka-manager
+    environment:
+      - ZK_HOSTS=zookeeper
+    depends_on:
+      - zookeeper
+      - kafka
+    ports:
+      - 9000:9000
+    networks:
+      - frontend
