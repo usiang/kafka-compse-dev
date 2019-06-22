@@ -8,4 +8,4 @@ ENV ZOOKEEPER_HOME ${ZOOKEEPER_HOME}
 
 EXPOSE 3306
 
-CMD ["/kafka/bin/kafka-server-start.sh","config/server.properties"]
+CMD ["/kafka/bin/kafka-server-start.sh","/kafka/config/server.properties"]

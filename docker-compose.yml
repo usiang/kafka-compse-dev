@@ -24,6 +24,8 @@ services:
       - ZOOKEEPER_HOME=zookeeper
     depends_on:
       - zookeeper
+    ports:
+      - 9092:9092
     networks:
       - frontend
 
