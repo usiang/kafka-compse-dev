@@ -4,8 +4,12 @@ LABEL maintainer="alan <alan@maeteno.com>"
 
 COPY ./kafka_2.12-2.2.0 /kafka
 
-ENV ZOOKEEPER_HOME ${ZOOKEEPER_HOME}
+ARG BROBER_ID
+ARG ZOOKEEPER_HOST
 
-EXPOSE 3306
+RUN sed -i 's/BROBER_ID/'${BROBER_ID}'/g' /kafka/config/server.properties && \
+sed -i 's/ZOOKEEPER_HOST/'${ZOOKEEPER_HOST}'/g' /kafka/config/server.properties
+
+EXPOSE 9092
 
 CMD ["/kafka/bin/kafka-server-start.sh","/kafka/config/server.properties"]
